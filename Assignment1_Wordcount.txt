@@ -1,0 +1,123 @@
+login as: root
+root@localhost's password:
+Last login: Wed Oct 27 12:24:41 2021
+[root@sandbox-hdp ~]# ls
+anaconda-ks.cfg  test1.csv
+[root@sandbox-hdp ~]# vi mapper.py
+[root@sandbox-hdp ~]# vi reducer.py
+[root@sandbox-hdp ~]# ls
+anaconda-ks.cfg  mapper.py  reducer.py  test1.csv  word_count_data.txt
+[root@sandbox-hdp ~]# hadoop jar /usr/hdp/current/hadoop-mapreduce-client/hadoop
+> -input /user/root/word_count_data.txt \
+> -output /user/root/wcoutputkarthik \
+> -mapper mapper.py \
+> -reducer reducer.py \
+> -file /root/mapper.py \
+> -file /root/reducer.py
+21/10/27 14:03:30 WARN streaming.StreamJob: -file option is deprecated, please u
+packageJobJar: [/root/mapper.py, /root/reducer.py] [/usr/hdp/3.0.1.0-187/hadoop-
+21/10/27 14:03:31 INFO client.RMProxy: Connecting to ResourceManager at sandbox-
+21/10/27 14:03:31 INFO client.AHSProxy: Connecting to Application History server
+21/10/27 14:03:31 INFO client.RMProxy: Connecting to ResourceManager at sandbox-
+21/10/27 14:03:31 INFO client.AHSProxy: Connecting to Application History server
+21/10/27 14:03:32 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding f
+21/10/27 14:03:36 INFO mapred.FileInputFormat: Total input files to process : 1
+21/10/27 14:03:38 INFO mapreduce.JobSubmitter: number of splits:2
+21/10/27 14:03:38 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_16
+21/10/27 14:03:38 INFO mapreduce.JobSubmitter: Executing with tokens: []
+21/10/27 14:03:39 INFO conf.Configuration: found resource resource-types.xml at
+21/10/27 14:03:40 INFO impl.YarnClientImpl: Submitted application application_16
+21/10/27 14:03:41 INFO mapreduce.Job: The url to track the job: http://sandbox-h
+21/10/27 14:03:41 INFO mapreduce.Job: Running job: job_1635337695798_0002
+21/10/27 14:04:20 INFO mapreduce.Job: Job job_1635337695798_0002 running in uber
+21/10/27 14:04:20 INFO mapreduce.Job:  map 0% reduce 0%
+21/10/27 14:06:00 INFO mapreduce.Job:  map 100% reduce 0%
+21/10/27 14:08:17 INFO mapreduce.Job:  map 100% reduce 100%
+21/10/27 14:08:31 INFO mapreduce.Job: Job job_1635337695798_0002 completed succe
+21/10/27 14:08:31 INFO mapreduce.Job: Counters: 53
+        File System Counters
+                FILE: Number of bytes read=121
+                FILE: Number of bytes written=714982
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=343
+                HDFS: Number of bytes written=58
+                HDFS: Number of read operations=11
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=2
+        Job Counters
+                Launched map tasks=2
+                Launched reduce tasks=1
+                Data-local map tasks=2
+                Total time spent by all maps in occupied slots (ms)=772592
+                Total time spent by all reduces in occupied slots (ms)=493704
+                Total time spent by all map tasks (ms)=193148
+                Total time spent by all reduce tasks (ms)=123426
+                Total vcore-milliseconds taken by all map tasks=193148
+                Total vcore-milliseconds taken by all reduce tasks=123426
+                Total megabyte-milliseconds taken by all map tasks=197783552
+                Total megabyte-milliseconds taken by all reduce tasks=126388224
+        Map-Reduce Framework
+                Map input records=1
+                Map output records=12
+                Map output bytes=91
+                Map output materialized bytes=127
+                Input split bytes=242
+                Combine input records=0
+                Combine output records=0
+                Reduce input groups=8
+                Reduce shuffle bytes=127
+                Reduce input records=12
+                Reduce output records=8
+                Spilled Records=24
+                Shuffled Maps =2
+                Failed Shuffles=0
+                Merged Map outputs=2
+                GC time elapsed (ms)=1187
+                CPU time spent (ms)=3730
+                Physical memory (bytes) snapshot=1184620544
+                Virtual memory (bytes) snapshot=8330465280
+                Total committed heap usage (bytes)=951058432
+                Peak Map Physical memory (bytes)=779304960
+                Peak Map Virtual memory (bytes)=2859499520
+                Peak Reduce Physical memory (bytes)=186683392
+                Peak Reduce Virtual memory (bytes)=2651492352
+        Shuffle Errors
+                BAD_ID=0
+                CONNECTION=0
+                IO_ERROR=0
+                WRONG_LENGTH=0
+                WRONG_MAP=0
+                WRONG_REDUCE=0
+        File Input Format Counters
+                Bytes Read=101
+        File Output Format Counters
+                Bytes Written=58
+21/10/27 14:08:31 INFO streaming.StreamJob: Output directory: /user/root/wcoutpu
+[root@sandbox-hdp ~]# ls
+anaconda-ks.cfg  code  mapper.py  reducer.py  test1.csv  word_count_data.txt
+[root@sandbox-hdp ~]# hdfs dfs -ls
+Found 5 items
+drwx------   - root hdfs          0 2021-10-27 14:08 .staging
+drwxr-xr-x   - root hdfs          0 2021-10-27 13:51 code
+-rw-r--r--   1 root hdfs         39 2021-10-27 06:32 test1.csv
+drwxr-xr-x   - root hdfs          0 2021-10-27 14:08 wcoutputkarthik
+-rw-r--r--   1 root hdfs         67 2021-10-27 12:39 word_count_data.txt
+[root@sandbox-hdp ~]# cat wcoutputkarthik
+cat: wcoutputkarthik: No such file or directory
+[root@sandbox-hdp ~]# hdfs dfs -cat wcoutputkarthik
+cat: `wcoutputkarthik': Is a directory
+[root@sandbox-hdp ~]# hdfs dfs -ls /user/root/wcoutputkarthik
+Found 2 items
+-rw-r--r--   1 root hdfs          0 2021-10-27 14:08 /user/root/wcoutputkarthik/
+-rw-r--r--   1 root hdfs         58 2021-10-27 14:08 /user/root/wcoutputkarthik/
+[root@sandbox-hdp ~]# hdfs dfs -cat /user/root/wcoutputkarthik/part-00000
+brown   1
+dogs    2
+fox     1
+jumped  3
+lazy    1
+over    1
+quick   2
+the     1
